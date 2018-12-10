@@ -1,4 +1,18 @@
-﻿IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+﻿IF EXISTS 
+   (
+     SELECT name FROM master.dbo.sysdatabases 
+    WHERE name = N'StyleVietDB'
+    )
+BEGIN
+    SELECT 'Database Name already Exist' AS Message
+END
+ELSE
+BEGIN
+    CREATE DATABASE [StyleVietDB]
+    SELECT 'New Database is Created'
+END
+GO
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
         [MigrationId] nvarchar(150) NOT NULL,
