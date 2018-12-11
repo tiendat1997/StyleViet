@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.Web", "StyleViet.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.API", "StyleViet.API\StyleViet.API.csproj", "{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.WebSalon", "StyleViet.WebSalon\StyleViet.WebSalon.csproj", "{3C2AB0AF-FCFA-404C-9BA2-E79CD1E1FFC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C2AB0AF-FCFA-404C-9BA2-E79CD1E1FFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2AB0AF-FCFA-404C-9BA2-E79CD1E1FFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2AB0AF-FCFA-404C-9BA2-E79CD1E1FFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2AB0AF-FCFA-404C-9BA2-E79CD1E1FFC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
