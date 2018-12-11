@@ -36,7 +36,9 @@ namespace StyleViet.WebAdmin
 
             #region DEPENDENCY INJECTION 
             services.AddDbContext<StyleVietContext>(option =>             
-                option.UseSqlServer(Configuration.GetConnectionString("StyleVietConn")));
+                option
+                .UseLazyLoadingProxies()
+                .UseSqlServer(Configuration.GetConnectionString("StyleVietConn")));
             //b => b.MigrationsAssembly("StyleViet.Entity") Add migration folder to another project
             services.AddSingleton<IUnitOfWork, UnitOfWork>();       
             #endregion           

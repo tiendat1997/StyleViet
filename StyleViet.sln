@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.Entity", "StyleViet.Entity\StyleViet.Entity.csproj", "{9E67F412-0209-4058-B3CC-7C0486B9D76A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.Entity", "StyleViet.Entity\StyleViet.Entity.csproj", "{9E67F412-0209-4058-B3CC-7C0486B9D76A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.Repository", "StyleViet.Repository\StyleViet.Repository.csproj", "{D4750444-0261-42C3-8F92-724E4D99588E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.Repository", "StyleViet.Repository\StyleViet.Repository.csproj", "{D4750444-0261-42C3-8F92-724E4D99588E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.Service", "StyleViet.Service\StyleViet.Service.csproj", "{56ADCBE9-6CE2-4F1C-83F3-DA6C008657CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.Service", "StyleViet.Service\StyleViet.Service.csproj", "{56ADCBE9-6CE2-4F1C-83F3-DA6C008657CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.WebAdmin", "StyleViet.WebAdmin\StyleViet.WebAdmin.csproj", "{FA80A40C-6C2C-402C-8926-79F50F7092E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.WebAdmin", "StyleViet.WebAdmin\StyleViet.WebAdmin.csproj", "{FA80A40C-6C2C-402C-8926-79F50F7092E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.Web", "StyleViet.Web\StyleViet.Web.csproj", "{B8165A13-A9BF-46D1-B37B-D2584D729332}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.Web", "StyleViet.Web\StyleViet.Web.csproj", "{B8165A13-A9BF-46D1-B37B-D2584D729332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.API", "StyleViet.API\StyleViet.API.csproj", "{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.API", "StyleViet.API\StyleViet.API.csproj", "{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyTest", "LazyTest\LazyTest.csproj", "{5FE8F36A-BD4E-4CDD-9AC9-245DD421AAF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFAFDE5C-2424-4D34-9949-EE0DC2944B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FE8F36A-BD4E-4CDD-9AC9-245DD421AAF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FE8F36A-BD4E-4CDD-9AC9-245DD421AAF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FE8F36A-BD4E-4CDD-9AC9-245DD421AAF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FE8F36A-BD4E-4CDD-9AC9-245DD421AAF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
