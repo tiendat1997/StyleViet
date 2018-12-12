@@ -1,0 +1,29 @@
+﻿CREATE TABLE [dbo].[AccountRole](
+	[AccountId] [int] NOT NULL,
+	[RoleId] [int] NOT NULL,
+ CONSTRAINT [PK_AccountRole] PRIMARY KEY CLUSTERED 
+(
+	[AccountId] ASC,
+	[RoleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[AccountRole]  WITH CHECK ADD  CONSTRAINT [FK_AccountRole_Account_AccountId] FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Account] ([Id])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[AccountRole] CHECK CONSTRAINT [FK_AccountRole_Account_AccountId]
+GO
+ALTER TABLE [dbo].[AccountRole]  WITH CHECK ADD  CONSTRAINT [FK_AccountRole_Role_RoleId] FOREIGN KEY([RoleId])
+REFERENCES [dbo].[Role] ([Id])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[AccountRole] CHECK CONSTRAINT [FK_AccountRole_Role_RoleId]
+GO
+/****** Object:  Index [IX_AccountRole_RoleId]    Script Date: 12/12/2018 9:56:36 PM ******/
+CREATE NONCLUSTERED INDEX [IX_AccountRole_RoleId] ON [dbo].[AccountRole]
+(
+	[RoleId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

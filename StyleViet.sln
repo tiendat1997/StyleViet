@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.API", "StyleViet.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.TestConsole", "StyleViet.TestConsole\StyleViet.TestConsole.csproj", "{F3E64951-504E-4ECE-BB2F-92FADCCB0790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StyleViet.WebApp", "StyleViet.WebApp\StyleViet.WebApp.csproj", "{63D9592F-FDFA-4257-849F-D750482D76FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StyleViet.WebApp", "StyleViet.WebApp\StyleViet.WebApp.csproj", "{63D9592F-FDFA-4257-849F-D750482D76FE}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StyleViet.Database", "StyleViet.Database\StyleViet.Database.sqlproj", "{9FECE682-82F7-4FC4-9B2B-7A95AC5047F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,12 @@ Global
 		{63D9592F-FDFA-4257-849F-D750482D76FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63D9592F-FDFA-4257-849F-D750482D76FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63D9592F-FDFA-4257-849F-D750482D76FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FECE682-82F7-4FC4-9B2B-7A95AC5047F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FECE682-82F7-4FC4-9B2B-7A95AC5047F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FECE682-82F7-4FC4-9B2B-7A95AC5047F4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9FECE682-82F7-4FC4-9B2B-7A95AC5047F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FECE682-82F7-4FC4-9B2B-7A95AC5047F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FECE682-82F7-4FC4-9B2B-7A95AC5047F4}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
