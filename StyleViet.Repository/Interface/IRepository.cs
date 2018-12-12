@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StyleViet.Repository.Interface
 {
-    public interface IRepository<DbContext, T> where T: BaseEntity
+    public interface IRepository<T> where T: BaseEntity
     {
         IEnumerable<T> GetAll();
         IEnumerable<T> Find(Func<T, bool> predicate);

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace StyleViet.Repository.Repository
 {
-    public class Repository<DbContext, T> : IRepository<DbContext, T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly StyleVietContext _context;
 
