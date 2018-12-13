@@ -54,7 +54,7 @@ namespace StyleViet.WebApp.Controllers
                     {
                         action = "Index";
                         controller = "Business";
-                        claims.Add(new Claim(ClaimTypes.Role, RoleEnum.Admin.ToString()));
+                        claims.Add(new Claim(ClaimTypes.Role, RoleEnum.Salon.ToString()));
                     }
                     ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
