@@ -24,7 +24,7 @@ namespace StyleViet.Repository.Repository
         {
             using (SqlConnection con = new SqlConnection(GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand("RegisterAdminAccount", con);
+                SqlCommand cmd = new SqlCommand("RegisterMemberAccount", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", account.Username);
                 cmd.Parameters.AddWithValue("@password", account.Password);
@@ -38,7 +38,14 @@ namespace StyleViet.Repository.Repository
             }
         }
 
-
+        public Account GetAccountPassword(string hashedUsername)
+        {
+            var foundedAccount = _context.Account
+                     .Where(a => a.Username.Equals(hashedUsername))
+                     .Include(r => r.AccountRoles)                    
+                     .FirstOrDefault();
+            return foundedAccount;
+        }
         public string GetAccountPassword(string hashedUsername, int roleId)
         {
             var foundedAccount = _context.Account
@@ -50,6 +57,44 @@ namespace StyleViet.Repository.Repository
                 return foundedAccount.Password;
             }
             return null;
+        }
+
+        public string RegisterSalonAccount(Account account, Salon salon)
+        {
+            using (SqlConnection con = new SqlConnection(GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand("RegisterSalonAccount", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", account.Username);
+                cmd.Parameters.AddWithValue("@password", account.Password);
+                cmd.Parameters.AddWithValue("@email", account.Email);
+                cmd.Parameters.AddWithValue("@salonname", salon.Name);
+                cmd.Parameters.AddWithValue("@address", salon.Address);
+                cmd.Parameters.AddWithValue("@phone", salon.Phone);
+                con.Open();
+                string result = cmd.ExecuteScalar().ToString();
+                con.Close();
+                return result;
+            }
+        }
+
+        public string RegisterMemberAccount(Account account, User member)
+        {
+            using (SqlConnection con = new SqlConnection(GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand("RegisterMemberAccount", con);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@username", account.Username);
+                cmd.Parameters.AddWithValue("@password", account.Password);
+                cmd.Parameters.AddWithValue("@email", account.Email);
+                cmd.Parameters.AddWithValue("@firstname", member.FirstName);
+                cmd.Parameters.AddWithValue("@lastname", member.LastName);
+                cmd.Parameters.AddWithValue("@phone", member.Phone);                
+                con.Open();
+                string result = cmd.ExecuteScalar().ToString();
+                con.Close();
+                return result;
+            }
         }
     }
 }

@@ -52,10 +52,10 @@ namespace StyleViet.WebAdmin
             #endregion
 
             #region DEPENDENCY INJECTION 
-            services.AddDbContext<StyleVietContext>(option =>             
-                option
-                //.UseLazyLoadingProxies()
-                .UseSqlServer(Configuration.GetConnectionString("StyleVietConn")));
+            services.AddDbContext<StyleVietContext>(option => {
+                option.UseLazyLoadingProxies();
+                option.UseSqlServer(Configuration.GetConnectionString("StyleVietConn"));
+                });
             
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<IAuthService, AuthService>();

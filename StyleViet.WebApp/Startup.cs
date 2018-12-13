@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StyleViet.Repository.Context;
+using StyleViet.Repository.Interface;
+using StyleViet.Repository.Repository;
+using StyleViet.Service;
+using StyleViet.Service.Implement;
+using StyleViet.Service.Interface;
 
 namespace StyleViet.WebApp
 {
@@ -30,7 +38,26 @@ namespace StyleViet.WebApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            #region Authentication and Authorization
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Auth/Login";
+                    options.AccessDeniedPath = "/Error/AccessDenied";                    
+                });
+            services.AddAuthorization(options => { });
+            #endregion
 
+            #region DI
+            services.AddDbContext<StyleVietContext>(options =>
+            {
+                options.UseLazyLoadingProxies();
+                options.UseSqlServer(Configuration.GetConnectionString("StyleVietConn"));
+            });
+            services.AddTransient<IAuthRepository, AuthRepository>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            #endregion
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -38,25 +65,24 @@ namespace StyleViet.WebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseAuthentication();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/Index");
                 app.UseHsts();
-            }
-
+            }            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Auth}/{action=Login}/{id?}");
             });
         }
     }

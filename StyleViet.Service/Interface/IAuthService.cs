@@ -8,6 +8,9 @@ namespace StyleViet.Service.Interface
     public interface IAuthService 
     {        
         string RegisterAdmin(AdminViewModel model);
+        string RegisterMember(MemberViewModel model);
+        string RegisterSalon(SalonViewModel model);
         string AdminLogin(LoginViewModel model);
+        LoginResultViewModel AccountLogin(LoginViewModel model);
     }
 }
