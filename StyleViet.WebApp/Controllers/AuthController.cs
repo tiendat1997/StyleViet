@@ -32,6 +32,12 @@ namespace StyleViet.WebApp.Controllers
         {
             return View();
         }
+        [Route("login/{provider}")]
+        public IActionResult Login(string provider, string returnUrl = null)
+        {
+            return Challenge(new AuthenticationProperties { RedirectUri = returnUrl ?? "/" }, provider);
+        }
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]

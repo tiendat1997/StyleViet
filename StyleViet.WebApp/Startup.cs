@@ -39,12 +39,28 @@ namespace StyleViet.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             #region Authentication and Authorization
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/Auth/Login";
-                    options.AccessDeniedPath = "/Error/AccessDenied";                    
-                });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddFacebook(options => 
+            {
+                options.AppId = Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            })
+            .AddGoogle(options =>
+            {
+                options.ClientId = Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            })
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+                options.AccessDeniedPath = "/Error/AccessDenied";
+            });
+
             services.AddAuthorization(options => { });
             #endregion
 
@@ -74,7 +90,7 @@ namespace StyleViet.WebApp
             {
                 app.UseExceptionHandler("/Error/Index");
                 app.UseHsts();
-            }            
+            }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
