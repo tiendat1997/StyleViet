@@ -76,5 +76,7 @@
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Stored Procedures\RegisterAdminAccount.sql" />
     <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="dbo\Stored Procedures\RegisterSalonAccount.sql" />
+    <Build Include="dbo\Stored Procedures\RegisterMemberAccount.sql" />
   </ItemGroup>
 </Project>
