@@ -2,6 +2,7 @@
 (
 	@username NVARCHAR(MAX),  
     @password NVARCHAR(MAX),  
+	@salt NVARCHAR(MAX),
     @email NVARCHAR(MAX),  	
     @fullname NVARCHAR(MAX),  
 	@phone NVARCHAR(MAX)
@@ -14,8 +15,8 @@ BEGIN
 
 	IF NOT EXISTS(SELECT 1 FROM Account a where a.Username = @username or UPPER(a.Email) = UPPER(@email))
 	BEGIN
-		INSERT INTO Account(Username, Password, Email, Expired)  
-		VALUES(@username,@password,@email,0)
+		INSERT INTO Account(Username, Password, Email, Expired, Salt)  
+		VALUES(@username,@password,@email,0, @salt)
 
 		SET @newAccId = (SELECT a.Id from Account a where a.Username = @username and a.Password = @password)
 		IF  (@newAccId IS NOT NULL)
@@ -30,3 +31,6 @@ BEGIN
 	END
 	SELECT @result AS Result  
 END
+GO
+
+

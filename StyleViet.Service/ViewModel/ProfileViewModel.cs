@@ -10,7 +10,8 @@ namespace StyleViet.Service.ViewModel
     {
         [Required(ErrorMessage = "Username is required.")]
         public string UserName { get; set; }
-
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
         [EmailAddress(ErrorMessage = "Email address is not in valid format.")]
         [Required(ErrorMessage = "Email address is required.")]
         public string Email { get; set; }
