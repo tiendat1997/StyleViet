@@ -17,12 +17,12 @@ namespace StyleViet.WebApp.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly IProfileService _profileService;
+        //private readonly IProfileService _profileService;
 
         public AuthController(IAuthService authService, IProfileService profileService)
         {
             _authService = authService;
-            _profileService = profileService;
+            //_profileService = profileService;
         }
         public IActionResult Index()
         {
@@ -32,7 +32,7 @@ namespace StyleViet.WebApp.Controllers
         public IActionResult Join()
         {
             return View();
-        }       
+        }
 
         [HttpGet]
         public async Task<IActionResult> Login()
@@ -44,16 +44,17 @@ namespace StyleViet.WebApp.Controllers
                 {
                     return RedirectToAction("Index", "Business");
                 }
-                return RedirectToAction("Index", "Home");                
+                return RedirectToAction("Index", "Home");
             }
             var vm = new LoginViewModel();
             return View(vm);
         }
         [Route("login/{provider}")]
-        public IActionResult Login(string provider, string returnUrl = null)
+        public IActionResult Login(string provider, string returnUrl = null, int roleId = 3)
         {
-            var profileUrl = !string.IsNullOrWhiteSpace(returnUrl) ? $"{Url.Action("Profile")}?returnUrl={returnUrl}" : Url.Action("Profile");
-
+            var profileUrl = !string.IsNullOrWhiteSpace(returnUrl) 
+                ? $"{Url.Action("Profile")}?returnUrl={returnUrl}&provider={provider}&roleId={roleId}" 
+                : $"{ Url.Action("Profile")}?provider={provider}&roleId={roleId}";
             return Challenge(new AuthenticationProperties { RedirectUri = profileUrl }, provider);
         }
 
@@ -82,7 +83,7 @@ namespace StyleViet.WebApp.Controllers
                     }
                     ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                    
+
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     return RedirectToAction(action, controller);
                 }
@@ -148,7 +149,7 @@ namespace StyleViet.WebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Profile(string returnUrl = null)
+        public async Task<IActionResult> Profile(string returnUrl = null, string provider = null, int roleId = 3)
         {
             var result = await HttpContext.AuthenticateAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
@@ -156,7 +157,7 @@ namespace StyleViet.WebApp.Controllers
                 return RedirectToAction("Login");
             }
             var username = result.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            var profile = await _profileService.RetrieveAsync(username);
+            var profile = await _authService.RetrieveAsync(username);
             if (profile != null)
             {
                 return await SignInUserAsync(profile, returnUrl);
@@ -168,6 +169,9 @@ namespace StyleViet.WebApp.Controllers
                 Name = result.Principal.Identity.Name,
                 Email = result.Principal.FindFirst(ClaimTypes.Email)?.Value,
                 Address = result.Principal.FindFirst(ClaimTypes.StreetAddress)?.Value,
+                RoleId = roleId,
+                GoogleId = provider.Equals("Google") ? username : null,
+                FacebookId = provider.Equals("Facebook") ? username : null,
                 ReturnUrl = returnUrl
             };
 
@@ -185,9 +189,13 @@ namespace StyleViet.WebApp.Controllers
                     UserName = model.UserName,
                     Name = model.Name,
                     Email = model.Email,
-                    Address = model.Address
+                    Address = model.Address,
+                    Phone = model.Phone,
+                    GoogleId = model.GoogleId,
+                    FacebookId = model.FacebookId,
+                    RoleId = model.RoleId
                 };
-                await _profileService.CreateAsync(profile);
+                await _authService.CreateAsync(profile);
                 return await SignInUserAsync(profile, model.ReturnUrl);
             }
 
@@ -195,11 +203,20 @@ namespace StyleViet.WebApp.Controllers
         }
         private async Task<IActionResult> SignInUserAsync(Profile profile, string returnUrl)
         {
-            await HttpContext.SignOutAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);            
+            string roleName = "Salon";
+            string homePage = "/Business/Index";
+            if (profile.RoleId == (int)RoleEnum.Member)
+            {
+                roleName = "User";
+                homePage = "/Home/Index";
+            }
+
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.NameIdentifier, profile.UserName),
                 new Claim(ClaimTypes.Name, profile.UserName),
-                new Claim(ClaimTypes.Email, profile.Email)
+                new Claim(ClaimTypes.Email, profile.Email),
+                new Claim(ClaimTypes.Role, roleName)
             };
 
             if (!string.IsNullOrWhiteSpace(profile.Address))
@@ -210,7 +227,8 @@ namespace StyleViet.WebApp.Controllers
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            return Redirect(string.IsNullOrWhiteSpace(returnUrl) ? "/Home/Index" : returnUrl);
+
+            return Redirect(string.IsNullOrWhiteSpace(returnUrl) ? homePage : returnUrl);
         }
 
         [HttpGet]

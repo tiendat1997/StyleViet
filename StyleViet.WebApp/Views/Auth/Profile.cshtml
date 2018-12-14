@@ -12,6 +12,9 @@
     <div class="col-md-4">
         <form asp-action="Profile" asp-controller="Auth">
             <input type="hidden" asp-for="UserName" />
+            <input type="hidden" asp-for="GoogleId" />
+            <input type="hidden" asp-for="FacebookId" />
+            <input type="hidden" asp-for="RoleId" />            
             <div class="form-group">
                 <label asp-for="Name">Name</label>
                 <input asp-for="Name" type="text" class="form-control">

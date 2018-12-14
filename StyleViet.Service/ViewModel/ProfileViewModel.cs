@@ -17,7 +17,10 @@ namespace StyleViet.Service.ViewModel
         public string Email { get; set; }
 
         public string Address { get; set; } = string.Empty;
-
+        public string Phone { get; set; } = string.Empty;
+        public int RoleId { get; set; }
+        public string GoogleId { get; set; }
+        public string FacebookId { get; set; }
         public string ReturnUrl { get; set; }
     }
 }
