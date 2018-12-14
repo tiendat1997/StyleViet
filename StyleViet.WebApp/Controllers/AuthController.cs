@@ -33,15 +33,20 @@ namespace StyleViet.WebApp.Controllers
         {
             return View();
         }       
+
+        [HttpGet]
         public async Task<IActionResult> Login()
         {
             var result = await HttpContext.AuthenticateAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
             if (result.Succeeded)
             {
-                return RedirectToAction("Index","Home");
+                if (result.Principal.FindFirstValue(ClaimTypes.Role).Equals(RoleEnum.Salon.ToString()))
+                {
+                    return RedirectToAction("Index", "Business");
+                }
+                return RedirectToAction("Index", "Home");                
             }
             var vm = new LoginViewModel();
-
             return View(vm);
         }
         [Route("login/{provider}")]
@@ -51,7 +56,7 @@ namespace StyleViet.WebApp.Controllers
 
             return Challenge(new AuthenticationProperties { RedirectUri = profileUrl }, provider);
         }
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind] LoginViewModel model)
@@ -62,13 +67,13 @@ namespace StyleViet.WebApp.Controllers
 
                 if (result.IsSuccess)
                 {
-                    var claims = new List<Claim>{new Claim(ClaimTypes.Name, model.Username)};
+                    var claims = new List<Claim> { new Claim(ClaimTypes.Name, model.Username) };
                     string action = "Index";
                     string controller = "Home";
                     if (result.RoleId == (int)RoleEnum.Member)
                     {
                         claims.Add(new Claim(ClaimTypes.Role, RoleEnum.Member.ToString()));
-                    }           
+                    }
                     else
                     {
                         action = "Index";
@@ -77,8 +82,8 @@ namespace StyleViet.WebApp.Controllers
                     }
                     ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-
-                    await HttpContext.SignInAsync(principal);
+                    
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     return RedirectToAction(action, controller);
                 }
                 else
@@ -101,7 +106,7 @@ namespace StyleViet.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                string status = _authService.RegisterMember(model);               
+                string status = _authService.RegisterMember(model);
                 if (status.Equals("Success"))
                 {
                     ModelState.Clear();
@@ -140,7 +145,7 @@ namespace StyleViet.WebApp.Controllers
                 }
                 return View();
             }
-            return View();            
+            return View();
         }
 
         public async Task<IActionResult> Profile(string returnUrl = null)
@@ -176,7 +181,7 @@ namespace StyleViet.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 var profile = new Profile
-                {                   
+                {
                     UserName = model.UserName,
                     Name = model.Name,
                     Email = model.Email,
@@ -211,7 +216,7 @@ namespace StyleViet.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Auth");
         }
 

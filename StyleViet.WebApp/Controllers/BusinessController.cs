@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace StyleViet.WebApp.Controllers
-{
+{    
     [Authorize(Roles = "Salon")]
     public class BusinessController : Controller
     {
