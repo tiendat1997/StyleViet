@@ -38,7 +38,7 @@ namespace StyleViet.WebApp.Controllers
             var result = await HttpContext.AuthenticateAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
             if (result.Succeeded)
             {
-                return RedirectToAction("Index","Profile");
+                return RedirectToAction("Index","Home");
             }
             var vm = new LoginViewModel();
 
@@ -159,7 +159,8 @@ namespace StyleViet.WebApp.Controllers
 
             var vm = new ProfileViewModel
             {
-                UserName = result.Principal.Identity.Name,
+                UserName = username,
+                Name = result.Principal.Identity.Name,
                 Email = result.Principal.FindFirst(ClaimTypes.Email)?.Value,
                 Address = result.Principal.FindFirst(ClaimTypes.StreetAddress)?.Value,
                 ReturnUrl = returnUrl
@@ -175,8 +176,9 @@ namespace StyleViet.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 var profile = new Profile
-                {
+                {                   
                     UserName = model.UserName,
+                    Name = model.Name,
                     Email = model.Email,
                     Address = model.Address
                 };

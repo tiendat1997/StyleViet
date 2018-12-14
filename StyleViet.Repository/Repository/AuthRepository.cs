@@ -24,9 +24,10 @@ namespace StyleViet.Repository.Repository
         {
             using (SqlConnection con = new SqlConnection(GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand("RegisterMemberAccount", con);
+                SqlCommand cmd = new SqlCommand("RegisterAdminAccount", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", account.Username);
+                cmd.Parameters.AddWithValue("@salt",account.Salt);
                 cmd.Parameters.AddWithValue("@password", account.Password);
                 cmd.Parameters.AddWithValue("@email", account.Email);
                 cmd.Parameters.AddWithValue("@fullname", admin.Fullname);
@@ -66,6 +67,7 @@ namespace StyleViet.Repository.Repository
                 SqlCommand cmd = new SqlCommand("RegisterSalonAccount", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", account.Username);
+                cmd.Parameters.AddWithValue("@salt", account.Salt);
                 cmd.Parameters.AddWithValue("@password", account.Password);
                 cmd.Parameters.AddWithValue("@email", account.Email);
                 cmd.Parameters.AddWithValue("@salonname", salon.Name);
@@ -77,7 +79,6 @@ namespace StyleViet.Repository.Repository
                 return result;
             }
         }
-
         public string RegisterMemberAccount(Account account, User member)
         {
             using (SqlConnection con = new SqlConnection(GetConnectionString()))
@@ -85,6 +86,7 @@ namespace StyleViet.Repository.Repository
                 SqlCommand cmd = new SqlCommand("RegisterMemberAccount", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", account.Username);
+                cmd.Parameters.AddWithValue("@salt", account.Salt);
                 cmd.Parameters.AddWithValue("@password", account.Password);
                 cmd.Parameters.AddWithValue("@email", account.Email);
                 cmd.Parameters.AddWithValue("@firstname", member.FirstName);

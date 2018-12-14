@@ -28,38 +28,49 @@ namespace StyleViet.Service.Implement
             var foundedAcc = _authRepo.GetAccountPassword(hashedUsername);
             if (foundedAcc != null)
             {
-                var pass = foundedAcc.Password;
-                var salt = pass.Substring(pass.Length - 7);
-                pass = pass.Remove(pass.Length - 7);
-                var hashed = HashingHelper.ValidateHash(model.Password, salt);
-                int roleId = foundedAcc.AccountRoles.Select(r => r.RoleId).FirstOrDefault();
-                if (hashed.Equals(pass)) return new LoginResultViewModel { IsSuccess = true, RoleId = roleId };
+                var result = HashingHelper.ValidateHash(foundedAcc.Password,model.Password, foundedAcc.Salt);                
+                if (result)
+                {
+                    int roleId = foundedAcc.AccountRoles.Select(r => r.RoleId).FirstOrDefault();
+                    return new LoginResultViewModel { IsSuccess = true, RoleId = roleId };
+                }                    
             }
             return new LoginResultViewModel { IsSuccess = false };
         }
         public string AdminLogin(LoginViewModel model)
         {
             var hashedUsername = HashingHelper.GenerateSHA256Hash(model.Username);
-            var pass = _authRepo.GetAccountPassword(hashedUsername, (int)RoleEnum.Admin);
-            if (pass != null)
+            var foundedAcc = _authRepo.GetAccountPassword(hashedUsername);
+            if (foundedAcc != null)
             {
-                var salt = pass.Substring(pass.Length - 7);
-                pass = pass.Remove(pass.Length - 7);
-                var hashed = HashingHelper.ValidateHash(model.Password, salt);
-                if (hashed.Equals(pass)) return "Success";
+                var result = HashingHelper.ValidateHash(foundedAcc.Password, model.Password, foundedAcc.Salt);
+                if (result)
+                {
+                    var role = foundedAcc.AccountRoles
+                        .Where(r => r.RoleId == (int)RoleEnum.Admin)
+                        .Select(r => r.Role).FirstOrDefault();
+                    if (role != null) return "Success";
+                }                                
             }
             return "Fail";
+        }
+        private Account RegisterAccount(string username, string password, string email)
+        {
+            var hashing = HashingHelper.GenerateHash(password);
+            Account account = new Account
+            {
+                Username = HashingHelper.GenerateSHA256Hash(username),
+                Password = hashing.Item1,
+                Salt = hashing.Item2,
+                Email = email,
+                Expired = false,
+            };
+            return account;
         }
 
         public string RegisterAdmin(AdminViewModel model)
         {
-            Account account = new Account
-            {
-                Username = HashingHelper.GenerateSHA256Hash(model.Username),
-                Password = HashingHelper.GenerateHash(model.Password),
-                Email = model.Email,
-                Expired = false,
-            };
+            var account = this.RegisterAccount(model.Username,model.Password,model.Email);
             Admin admin = new Admin
             {
                 Fullname = model.Fullname,
@@ -70,13 +81,7 @@ namespace StyleViet.Service.Implement
 
         public string RegisterMember(MemberViewModel model)
         {
-            Account account = new Account
-            {
-                Username = HashingHelper.GenerateSHA256Hash(model.Username),
-                Password = HashingHelper.GenerateHash(model.Password),
-                Email = model.Email,
-                Expired = false,
-            };
+            var account = this.RegisterAccount(model.Username, model.Password, model.Email);
             User member = new User
             {
                 FirstName = model.FirstName,
@@ -89,13 +94,7 @@ namespace StyleViet.Service.Implement
 
         public string RegisterSalon(SalonViewModel model)
         {
-            Account account = new Account
-            {
-                Username = HashingHelper.GenerateSHA256Hash(model.Username),
-                Password = HashingHelper.GenerateHash(model.Password),
-                Email = model.Email,
-                Expired = false,
-            };
+            var account = this.RegisterAccount(model.Username, model.Password, model.Email);
             Salon salon = new Salon
             {
                 Name = model.Name,

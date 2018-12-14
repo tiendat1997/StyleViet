@@ -79,4 +79,7 @@
     <Build Include="dbo\Stored Procedures\RegisterSalonAccount.sql" />
     <Build Include="dbo\Stored Procedures\RegisterMemberAccount.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\14.12.2018.sql" />
+  </ItemGroup>
 </Project>

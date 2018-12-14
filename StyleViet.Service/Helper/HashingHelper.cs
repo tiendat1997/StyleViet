@@ -6,11 +6,11 @@ namespace StyleViet.Service.Helper
 {
     public class HashingHelper
     {
-        public static string GenerateHash(string input)
+        public static Tuple<string,string> GenerateHash(string input)
         {
             string salt = CreateSalt(7);
             string hashed = GenerateSHA256Hash(input, salt);
-            return hashed; 
+            return new Tuple<string, string>(hashed,salt); 
         }
         private static string CreateSalt(int size)
         {
@@ -18,23 +18,21 @@ namespace StyleViet.Service.Helper
             var rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
             var buffer = new byte[size];
             rng.GetBytes(buffer);
-            var result = Convert.ToBase64String(buffer);
-            return result.Substring(0,size);
+            return Convert.ToBase64String(buffer);            
         }        
         public static string GenerateSHA256Hash(string input, string salt)
         {
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input + salt);
             System.Security.Cryptography.SHA256Managed sha256HashString = new System.Security.Cryptography.SHA256Managed();
             byte[] hash = sha256HashString.ComputeHash(bytes);
-            var hashed = Convert.ToBase64String(hash);
-            return hashed.Insert(hashed.Length, salt);                        
+            return Convert.ToBase64String(hash);            
         }        
-        public static string ValidateHash(string input, string salt)
+        public static bool ValidateHash(string pass,string input, string salt)
         {
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input + salt);
             System.Security.Cryptography.SHA256Managed sha256HashString = new System.Security.Cryptography.SHA256Managed();
             byte[] hash = sha256HashString.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);                        
+            return pass.Equals(Convert.ToBase64String(hash));                        
         }
         public static string GenerateSHA256Hash(string input)
         {
