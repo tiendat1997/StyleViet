@@ -12,5 +12,6 @@ namespace StyleViet.Service.ViewModel
         [Required]
         public string Password { get; set; }
         public int RoleId { get; set; }
+        public string Provider { get; set; }
     }
 }

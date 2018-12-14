@@ -15,6 +15,7 @@ using StyleViet.Repository.Context;
 using StyleViet.Repository.Interface;
 using StyleViet.Repository.Repository;
 using StyleViet.Service;
+using StyleViet.Service.Constant;
 using StyleViet.Service.Implement;
 using StyleViet.Service.Interface;
 
@@ -43,7 +44,7 @@ namespace StyleViet.WebApp
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = TemporaryAuthenticationDefaults.AuthenticationScheme; ;
             })
             .AddFacebook(options => 
             {
@@ -58,8 +59,9 @@ namespace StyleViet.WebApp
             .AddCookie(options =>
             {
                 options.LoginPath = "/Auth/Login";
-                options.AccessDeniedPath = "/Error/AccessDenied";
-            });
+                options.AccessDeniedPath = "/Error/AccessDenied";                
+            })
+            .AddCookie(TemporaryAuthenticationDefaults.AuthenticationScheme);
 
             services.AddAuthorization(options => { });
             #endregion
@@ -70,6 +72,7 @@ namespace StyleViet.WebApp
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(Configuration.GetConnectionString("StyleVietConn"));
             });
+            services.AddSingleton<IProfileService, ProfileService>(); 
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
