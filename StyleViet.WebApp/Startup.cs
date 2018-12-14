@@ -55,7 +55,9 @@ namespace StyleViet.WebApp
                 options.UseSqlServer(Configuration.GetConnectionString("StyleVietConn"));
             });
             services.AddTransient<IAuthRepository, AuthRepository>();
+            services.AddTransient<ISalonRepository, SalonRepository>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<ISalonService, SalonService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 
