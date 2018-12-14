@@ -15,6 +15,7 @@ using StyleViet.Repository.Context;
 using StyleViet.Repository.Interface;
 using StyleViet.Repository.Repository;
 using StyleViet.Service;
+using StyleViet.Service.Constant;
 using StyleViet.Service.Implement;
 using StyleViet.Service.Interface;
 
@@ -39,12 +40,29 @@ namespace StyleViet.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             #region Authentication and Authorization
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/Auth/Login";
-                    options.AccessDeniedPath = "/Error/AccessDenied";                    
-                });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = TemporaryAuthenticationDefaults.AuthenticationScheme; ;
+            })
+            .AddFacebook(options => 
+            {
+                options.AppId = Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            })
+            .AddGoogle(options =>
+            {
+                options.ClientId = Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            })
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Auth/Login";
+                options.AccessDeniedPath = "/Error/AccessDenied";                
+            })
+            .AddCookie(TemporaryAuthenticationDefaults.AuthenticationScheme);
+
             services.AddAuthorization(options => { });
             #endregion
 
@@ -54,6 +72,7 @@ namespace StyleViet.WebApp
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(Configuration.GetConnectionString("StyleVietConn"));
             });
+            services.AddSingleton<IProfileService, ProfileService>(); 
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ISalonRepository, SalonRepository>();
             services.AddTransient<IAuthService, AuthService>();
@@ -76,7 +95,7 @@ namespace StyleViet.WebApp
             {
                 app.UseExceptionHandler("/Error/Index");
                 app.UseHsts();
-            }            
+            }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
