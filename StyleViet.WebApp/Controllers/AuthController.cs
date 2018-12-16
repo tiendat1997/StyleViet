@@ -37,15 +37,15 @@ namespace StyleViet.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-            var result = await HttpContext.AuthenticateAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
-            if (result.Succeeded)
-            {
-                if (result.Principal.FindFirstValue(ClaimTypes.Role).Equals(RoleEnum.Salon.ToString()))
-                {
-                    return RedirectToAction("Index", "Business");
-                }
-                return RedirectToAction("Index", "Home");
-            }
+            //var result = await HttpContext.AuthenticateAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
+            //if (result.Succeeded)
+            //{
+            //    if (result.Principal.FindFirstValue(ClaimTypes.Role).Equals(RoleEnum.Salon.ToString()))
+            //    {
+            //        return RedirectToAction("Index", "Business");
+            //    }
+            //    return RedirectToAction("Index", "Home");
+            //}
             var vm = new LoginViewModel();
             return View(vm);
         }
@@ -84,6 +84,7 @@ namespace StyleViet.WebApp.Controllers
                     ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
 
+                    ViewData.Add("Username","Hello Kitty");
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     return RedirectToAction(action, controller);
                 }
@@ -214,7 +215,7 @@ namespace StyleViet.WebApp.Controllers
 
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.NameIdentifier, profile.UserName),
-                new Claim(ClaimTypes.Name, profile.UserName),
+                new Claim(ClaimTypes.Name, profile.Name),
                 new Claim(ClaimTypes.Email, profile.Email),
                 new Claim(ClaimTypes.Role, roleName)
             };

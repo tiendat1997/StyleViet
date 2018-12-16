@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace StyleViet.WebApp.Controllers
-{    
+{
     [Authorize(Roles = "Salon")]
-    public class BusinessController : Controller
+    public class ProfileController : Controller
     {
         public IActionResult Index()
         {
-            ViewData.Add("Username", "Hello Kitty");
             return View();
         }
     }

@@ -30,28 +30,26 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="">Promotion</a></li>
+                    <li><a asp-area="" asp-controller="Profile" asp-action="Index">Profile</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a>For Business</a>
-                    </li>
-                    <li class="dropdown">
+                <ul class="nav navbar-nav navbar-right">                
+                    <li class="dropdown">                      
                         <a class="dropdown-toggle" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             @User.Identity.Name
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="profileMenu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a asp-controller="Auth" asp-action="Logout">Sign Out</a>
-                            </li>
-                        </ul>
+                            <ul class="dropdown-menu" aria-labelledby="profileMenu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a asp-controller="Auth" asp-action="Logout">Sign Out</a>
+                                </li>
+                            </ul>                    
+                    </li>
+                    <li>                        
                     </li>
                 </ul>
             </div>
