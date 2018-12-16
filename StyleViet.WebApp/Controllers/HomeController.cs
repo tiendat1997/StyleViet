@@ -33,6 +33,10 @@ namespace StyleViet.WebApp.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }      
+        }
+        public IActionResult Join()
+        {
+            return View();
+        }
     }
 }

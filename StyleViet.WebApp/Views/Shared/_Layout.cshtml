@@ -20,7 +20,6 @@
     <div id="modal-container" class="modal fade hidden-print" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-
             </div>
         </div>
     </div>
@@ -36,8 +35,7 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">StyleViet</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <ul class="nav navbar-nav">                      
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
@@ -52,9 +50,8 @@
                             </a>
 
                             <ul class="dropdown-menu" aria-labelledby="profileMenu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
+                                <li><a href="#">My Accounts</a></li>
+                                <li><a href="#">Favourite Salon</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li>
                                     <a asp-controller="Auth" asp-action="Logout">Sign Out</a>
@@ -65,15 +62,15 @@
                     else
                     {
                         <li>
-                            <a asp-action="Sign Up"
-                               asp-controller="Auth">Sign In</a>
+                            <a asp-action="Register"
+                               asp-controller="Auth">Sign Up</a>
                         </li>
                         <li>
                             <a asp-action="Login"
                                asp-controller="Auth">Log In</a>
                         </li>
                         <li>
-                            <a>For Business</a>
+                            <a asp-controller="Home" asp-action="Join">For Business</a>
                         </li>
                     }
                 </ul>
