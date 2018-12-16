@@ -11,8 +11,7 @@ namespace StyleViet.WebApp.Controllers
     public class BusinessController : Controller
     {
         public IActionResult Index()
-        {
-            ViewData.Add("Username", "Hello Kitty");
+        {            
             return View();
         }
     }

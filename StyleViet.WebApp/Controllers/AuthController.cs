@@ -11,6 +11,7 @@ using StyleViet.Service.Enum;
 using StyleViet.Service.Interface;
 using StyleViet.Service.Model;
 using StyleViet.Service.ViewModel;
+using StyleViet.WebApp.Models;
 
 namespace StyleViet.WebApp.Controllers
 {
@@ -83,84 +84,43 @@ namespace StyleViet.WebApp.Controllers
                     }
                     ClaimsIdentity userIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-
-                    ViewData.Add("Username","Hello Kitty");
+                    
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     return RedirectToAction(action, controller);
                 }
                 else
                 {
                     TempData["LoginStatus"] = "Login Failed.Please enter correct credentials";
-                    return View();
+                    return View();                   
                 }
             }
             else
-                return View();
-        }
-
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Register([Bind] MemberViewModel model)
-        {
-            if (ModelState.IsValid)
             {
-                string status = _authService.RegisterMember(model);
-                if (status.Equals("Success"))
+                var closeModal = new CloseModal
                 {
-                    ModelState.Clear();
-                    TempData["RegisterStatus"] = "Registration Successful!";
-                }
-                else
-                {
-                    TempData["RegisterStatus"] = "Registration Failed ! Please try again";
-                }
-                return View();
-            }
-            return View();
-        }
-
-        [Route("Join/Register")]
-        public IActionResult SalonRegister()
-        {
-            return View("SalonRegister");
-        }
-
-        [HttpPost]
-        [Route("Join/Register")]
-        public IActionResult SalonRegister(SalonViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                string status = _authService.RegisterSalon(model);
-                if (status.Equals("Success"))
-                {
-                    ModelState.Clear();
-                    TempData["RegisterStatus"] = "Registration Successful!";
-                }
-                else
-                {
-                    TempData["RegisterStatus"] = "Registration Failed ! Please try again";
-                }
-                return View();
-            }
-            return View();
-        }
-
+                    ShouldClose = true,
+                    FetchData = false
+                };
+                return PartialView("CloseModal", closeModal);
+            }                
+        }     
         public async Task<IActionResult> Profile(string returnUrl = null, string provider = null, int roleId = 3)
         {
             var result = await HttpContext.AuthenticateAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
             {
+                var closeModal = new CloseModal
+                {                    
+                    ShouldClose = true,
+                    FetchData = false
+                };                
                 return RedirectToAction("Login");
             }
             var username = result.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
             var profile = await _authService.RetrieveAsync(username);
             if (profile != null)
             {
+                profile.Name = result.Principal.FindFirstValue(ClaimTypes.Name);
                 return await SignInUserAsync(profile, returnUrl);
             }
 
@@ -232,12 +192,64 @@ namespace StyleViet.WebApp.Controllers
             return Redirect(string.IsNullOrWhiteSpace(returnUrl) ? homePage : returnUrl);
         }
 
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register([Bind] MemberViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string status = _authService.RegisterMember(model);
+                if (status.Equals("Success"))
+                {
+                    ModelState.Clear();
+                    TempData["RegisterStatus"] = "Registration Successful!";
+                }
+                else
+                {
+                    TempData["RegisterStatus"] = "Registration Failed ! Please try again";
+                }
+                return View();
+            }
+            return View();
+        }
+
+        [Route("Join/Register")]
+        public IActionResult SalonRegister()
+        {
+            return View("SalonRegister");
+        }
+
+        [HttpPost]
+        [Route("Join/Register")]
+        public IActionResult SalonRegister(SalonViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string status = _authService.RegisterSalon(model);
+                if (status.Equals("Success"))
+                {
+                    ModelState.Clear();
+                    TempData["RegisterStatus"] = "Registration Successful!";
+                }
+                else
+                {
+                    TempData["RegisterStatus"] = "Registration Failed ! Please try again";
+                }
+                return View();
+            }
+            return View();
+        }
+
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Auth");
-        }
-
+        }      
     }
 }

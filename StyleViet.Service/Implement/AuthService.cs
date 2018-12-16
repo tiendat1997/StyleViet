@@ -150,7 +150,7 @@ namespace StyleViet.Service.Implement
             {
                 var profile = new Profile
                 {
-                    UserName = username,   
+                    UserName = username,                       
                     Email = foundedAcc.Email,
                     RoleId = foundedAcc.AccountRoles.Select(r => r.RoleId).FirstOrDefault()
                 };

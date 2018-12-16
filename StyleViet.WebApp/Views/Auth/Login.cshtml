@@ -1,5 +1,4 @@
 ﻿@{
-    Layout = null;
     ViewData["Title"] = "Login";
 }
 @using Microsoft.AspNetCore.Authentication
@@ -50,14 +49,14 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h3>Login with Salon social providers</h3>
+        <h3>Sign Up with Salon social providers</h3>
         <h4>Select from the list of available social providers</h4>
         <div class="btn-group" role="group">
             @foreach (var provider in await SchemeProvider.GetRequestHandlerSchemesAsync())
             {
                 <a class="btn btn-lg btn-default"
                    asp-route-returnUrl="@Context.Request.Query["returnUrl"]"
-                   asp-route-provider="@provider.Name"                    
+                   asp-route-provider="@provider.Name"
                    asp-route-roleId="2"
                    asp-action="Login"><i class="fa fa-@provider.Name.ToLower()"></i>@provider.Name</a>
             }

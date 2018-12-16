@@ -101,7 +101,7 @@ namespace StyleViet.WebApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Auth}/{action=Login}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

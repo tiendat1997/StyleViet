@@ -8,8 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using StyleViet.WebApp.Models;
 
 namespace StyleViet.WebApp.Controllers
-{
-    [Authorize(Roles = "User")]
+{    
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -34,6 +33,6 @@ namespace StyleViet.WebApp.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
+        }      
     }
 }

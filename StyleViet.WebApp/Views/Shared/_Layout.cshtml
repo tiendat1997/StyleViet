@@ -17,6 +17,13 @@
     </environment>
 </head>
 <body>
+    <div id="modal-container" class="modal fade hidden-print" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -35,24 +42,40 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a>For Business</a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            @User.Identity.Name
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="profileMenu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a asp-controller="Auth" asp-action="Logout">Sign Out</a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+
+                            <a class="dropdown-toggle" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                @User.Identity.Name
+                                <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="profileMenu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a asp-controller="Auth" asp-action="Logout">Sign Out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-action="Sign Up"
+                               asp-controller="Auth">Sign In</a>
+                        </li>
+                        <li>
+                            <a asp-action="Login"
+                               asp-controller="Auth">Log In</a>
+                        </li>
+                        <li>
+                            <a>For Business</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -64,7 +87,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - StyleViet.WebApp</p>
+            <p>&copy; 2018 - StyleViet</p>
         </footer>
     </div>
 
@@ -88,6 +111,23 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+    <script type="text/javascript">
+        $(function () {
+            // boostrap 4 load modal example from docs
+            $('#modal-container').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var url = button.attr("href");
+                var modal = $(this);
+                // note that this will replace the content of modal-content ever time the modal is opened
+                modal.find('.modal-content').load(url);
+            });
+            $('#modal-container').on('hidden.bs.modal', function () {
+                // remove the bs.modal data attribute from it
+                $(this).removeData('bs.modal');
+                // and empty the modal-content element
+                $('#modal-container .modal-content').empty();
+            });
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>
