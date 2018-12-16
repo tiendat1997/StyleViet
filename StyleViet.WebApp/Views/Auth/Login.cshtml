@@ -5,16 +5,31 @@
 @inject IAuthenticationSchemeProvider SchemeProvider
 @model StyleViet.Service.ViewModel.LoginViewModel
 
-<h2>LOGIN PAGE</h2>
-<hr />
-@if (TempData["LoginStatus"] != null)
-{
-    <p class="alert alert-danger">@TempData["LoginStatus"]</p>
-}
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Login" method="post">                
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>                
+
+<div class="row">    
+    <div class="col-md-4">
+        <div class="row">
+            <h2 style="margin-left:0">LOGIN</h2>
+            @if (TempData["LoginStatus"] != null)
+            {
+                <p class="alert alert-danger">@TempData["LoginStatus"]</p>
+            }
+        </div>      
+        <div class="row">
+            <label>CONTINUE WITH</label>
+            @foreach (var provider in await SchemeProvider.GetRequestHandlerSchemesAsync())
+            {
+                <a class="btn btn-lg btn-default"
+                   style="width:100%"
+                   asp-route-returnUrl="@Context.Request.Query["returnUrl"]"
+                   asp-route-provider="@provider.Name"
+                   asp-action="Login"><i class="fa fa-@provider.Name.ToLower()"></i>@provider.Name</a>
+            }
+        </div>
+        <hr />
+        <div class="row">
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Username" class="control-label"></label>
                     <input asp-for="Username" type="text" class="form-control" />
@@ -26,27 +41,10 @@
                     <span asp-validation-for="Password"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-default btn-primary" />
+                    <input type="submit" style="width:100%"
+                           value="Login" class="btn btn-lg btn-primary" />
                 </div>
             </form>
-        </div>      
-    </div>
-
-<a asp-action="Register" class="btn btn-info">SignUp</a>
-<br />
-
-<div class="row">
-    <div class="col-md-12">
-        <h3>Login with social providers</h3>
-        <h4>Select from the list of available social providers</h4>
-        <div class="btn-group" role="group">
-            @foreach (var provider in await SchemeProvider.GetRequestHandlerSchemesAsync())
-            {
-                <a class="btn btn-lg btn-default"
-                   asp-route-returnUrl="@Context.Request.Query["returnUrl"]"
-                   asp-route-provider="@provider.Name"
-                   asp-action="Login"><i class="fa fa-@provider.Name.ToLower()"></i>@provider.Name</a>
-            }
         </div>
     </div>
 </div>
