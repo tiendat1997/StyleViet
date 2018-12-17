@@ -96,24 +96,14 @@ namespace StyleViet.WebApp.Controllers
             }
             else
             {
-                var closeModal = new CloseModal
-                {
-                    ShouldClose = true,
-                    FetchData = false
-                };
-                return PartialView("CloseModal", closeModal);
+                return View();
             }                
         }     
         public async Task<IActionResult> Profile(string returnUrl = null, string provider = null, int roleId = 3)
         {
             var result = await HttpContext.AuthenticateAsync(TemporaryAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
-            {
-                var closeModal = new CloseModal
-                {                    
-                    ShouldClose = true,
-                    FetchData = false
-                };                
+            {                  
                 return RedirectToAction("Login");
             }
             var username = result.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
