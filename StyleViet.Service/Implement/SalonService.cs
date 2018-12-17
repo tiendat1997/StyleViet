@@ -29,6 +29,9 @@ namespace StyleViet.Service.Implement
                     SalonId = salon.Id,
                     Name = salon.Name,
                     Phone = salon.Phone,
+                    Address = salon.Address,
+                    Email = salon.Email
+
                 };
             }
             else
@@ -48,7 +51,6 @@ namespace StyleViet.Service.Implement
                     salon.Name = model.Name;
                     salon.Phone = model.Phone;
                     salon.Address = model.Address;
-
                     _salonRepository.Update(salon);
                     _unitOfWork.Save();
                 }

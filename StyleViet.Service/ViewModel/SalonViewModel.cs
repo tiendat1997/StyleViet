@@ -15,6 +15,7 @@ namespace StyleViet.Service.ViewModel
         public string Phone { get; set; }
         [Required]
         public string Address { get; set; }
+        public string Email { get; set; }
         public IEnumerable<SalonServiceViewModel> Services { get; set; }
     }
 }

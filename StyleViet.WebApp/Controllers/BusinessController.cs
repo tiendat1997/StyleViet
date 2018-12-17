@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StyleViet.Service.Interface;
+using StyleViet.Service.ViewModel;
 
 namespace StyleViet.WebApp.Controllers
 {    
@@ -21,10 +22,10 @@ namespace StyleViet.WebApp.Controllers
         
         public IActionResult Index()
         {
-            var context = Request.HttpContext;
-            var id = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-            var salonModel = _salonService.GetProfile(id);
-            return View(salonModel);
+           
+            return View();
         }
+
+       
     }
 }
