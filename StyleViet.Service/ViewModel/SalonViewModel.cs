@@ -9,6 +9,7 @@ namespace StyleViet.Service.ViewModel
     {
         public int SalonId { get; set; }
         [Required]
+        [Display(Name = "Salon Name")]
         public string Name { get; set; } 
         [Required]
         public string Phone { get; set; }

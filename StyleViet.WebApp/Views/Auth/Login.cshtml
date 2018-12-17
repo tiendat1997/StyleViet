@@ -1,49 +1,50 @@
 ﻿@{
-    Layout = null;
     ViewData["Title"] = "Login";
 }
 @using Microsoft.AspNetCore.Authentication
 @inject IAuthenticationSchemeProvider SchemeProvider
 @model StyleViet.Service.ViewModel.LoginViewModel
 
-<h2>LOGIN PAGE</h2>
-<hr />
-@if (TempData["LoginStatus"] != null)
-{
-    <span class="alert alert-danger">@TempData["LoginStatus"]</span>
-}
-<form asp-action="Login" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Username" class="control-label"></label>
-        <input asp-for="Username" type="text" />
-        <span asp-validation-for="Username"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password" class="control-label"></label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Login" class="btn btn-default btn-primary" />
-    </div>
-</form>
-
-<a asp-action="Register" class="btn btn-info">SignUp</a>
-<br />
-
-<div class="row">
-    <div class="col-md-12">
-        <h3>Login with social providers</h3>
-        <h4>Select from the list of available social providers</h4>
-        <div class="btn-group" role="group">
+<div class="row">    
+    <div class="col-md-4">
+        <div class="row">
+            <h2 style="margin-left:0">LOGIN</h2>
+            <label>CONTINUE WITH</label>
             @foreach (var provider in await SchemeProvider.GetRequestHandlerSchemesAsync())
             {
                 <a class="btn btn-lg btn-default"
+                   style="width:100%; margin: 5px 0;"
                    asp-route-returnUrl="@Context.Request.Query["returnUrl"]"
                    asp-route-provider="@provider.Name"
                    asp-action="Login"><i class="fa fa-@provider.Name.ToLower()"></i>@provider.Name</a>
             }
+        </div>
+        <hr />
+        <div class="row">
+            
+            @if (TempData["LoginStatus"] != null)
+            {
+                <p class="alert alert-danger">@TempData["LoginStatus"]</p>
+            }
+        </div>
+        <div class="row">
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" type="text" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" style="width:100%"
+                           value="Login" class="btn btn-lg btn-primary" />
+                </div>
+            </form>
         </div>
     </div>
 </div>

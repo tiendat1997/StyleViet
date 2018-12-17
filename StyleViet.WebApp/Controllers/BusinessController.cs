@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using StyleViet.Service.Interface;
 
 namespace StyleViet.WebApp.Controllers
-{
+{    
     [Authorize(Roles = "Salon")]
     public class BusinessController : Controller
     {

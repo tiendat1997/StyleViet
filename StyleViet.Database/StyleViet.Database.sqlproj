@@ -82,4 +82,7 @@
   <ItemGroup>
     <None Include="Scripts\14.12.2018.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="StyleViet.Database.refactorlog" />
+  </ItemGroup>
 </Project>

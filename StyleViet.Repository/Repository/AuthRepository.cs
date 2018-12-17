@@ -43,7 +43,7 @@ namespace StyleViet.Repository.Repository
         {
             var foundedAccount = _context.Account
                      .Where(a => a.Username.Equals(hashedUsername))
-                     .Include(r => r.AccountRoles)                    
+                     .Include(r => r.AccountRoles)                     
                      .FirstOrDefault();
             return foundedAccount;
         }
@@ -64,6 +64,11 @@ namespace StyleViet.Repository.Repository
         {
             using (SqlConnection con = new SqlConnection(GetConnectionString()))
             {
+                if (string.IsNullOrWhiteSpace(account.Password)) account.Password = DBNull.Value.ToString();
+                if (string.IsNullOrWhiteSpace(account.Salt)) account.Salt = DBNull.Value.ToString();
+                if (string.IsNullOrWhiteSpace(account.GoogleId)) account.GoogleId = DBNull.Value.ToString();
+                if (string.IsNullOrWhiteSpace(account.FacebookId)) account.FacebookId = DBNull.Value.ToString();
+
                 SqlCommand cmd = new SqlCommand("RegisterSalonAccount", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", account.Username);
@@ -73,6 +78,8 @@ namespace StyleViet.Repository.Repository
                 cmd.Parameters.AddWithValue("@salonname", salon.Name);
                 cmd.Parameters.AddWithValue("@address", salon.Address);
                 cmd.Parameters.AddWithValue("@phone", salon.Phone);
+                cmd.Parameters.AddWithValue("@googleId", account.GoogleId);
+                cmd.Parameters.AddWithValue("@facebookId", account.FacebookId);
                 con.Open();
                 string result = cmd.ExecuteScalar().ToString();
                 con.Close();
@@ -83,6 +90,12 @@ namespace StyleViet.Repository.Repository
         {
             using (SqlConnection con = new SqlConnection(GetConnectionString()))
             {
+                if (string.IsNullOrWhiteSpace(account.Password)) account.Password = DBNull.Value.ToString();
+                if (string.IsNullOrWhiteSpace(account.Salt)) account.Salt = DBNull.Value.ToString();
+                if (string.IsNullOrWhiteSpace(account.GoogleId)) account.GoogleId = DBNull.Value.ToString();
+                if (string.IsNullOrWhiteSpace(account.FacebookId)) account.FacebookId = DBNull.Value.ToString();
+                if (string.IsNullOrWhiteSpace(member.LastName)) member.LastName = DBNull.Value.ToString();
+
                 SqlCommand cmd = new SqlCommand("RegisterMemberAccount", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@username", account.Username);
@@ -91,7 +104,9 @@ namespace StyleViet.Repository.Repository
                 cmd.Parameters.AddWithValue("@email", account.Email);
                 cmd.Parameters.AddWithValue("@firstname", member.FirstName);
                 cmd.Parameters.AddWithValue("@lastname", member.LastName);
-                cmd.Parameters.AddWithValue("@phone", member.Phone);                
+                cmd.Parameters.AddWithValue("@phone", member.Phone);
+                cmd.Parameters.AddWithValue("@googleId", account.GoogleId);
+                cmd.Parameters.AddWithValue("@facebookId", account.FacebookId);
                 con.Open();
                 string result = cmd.ExecuteScalar().ToString();
                 con.Close();

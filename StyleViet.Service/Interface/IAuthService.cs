@@ -1,7 +1,9 @@
-﻿using StyleViet.Service.ViewModel;
+﻿using StyleViet.Service.Model;
+using StyleViet.Service.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StyleViet.Service.Interface
 {
@@ -12,5 +14,10 @@ namespace StyleViet.Service.Interface
         string RegisterSalon(SalonViewModel model);
         string AdminLogin(LoginViewModel model);
         LoginResultViewModel AccountLogin(LoginViewModel model);
+
+        #region External Login
+        Task CreateAsync(Profile profile);
+        Task<Profile> RetrieveAsync(string username);
     }
+    #endregion
 }

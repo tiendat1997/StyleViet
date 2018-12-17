@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StyleViet.WebApp.Models;
 
 namespace StyleViet.WebApp.Controllers
-{
+{    
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -30,6 +31,10 @@ namespace StyleViet.WebApp.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        public IActionResult Join()
         {
             return View();
         }

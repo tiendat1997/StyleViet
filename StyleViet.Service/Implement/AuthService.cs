@@ -3,11 +3,13 @@ using StyleViet.Repository.Interface;
 using StyleViet.Service.Enum;
 using StyleViet.Service.Helper;
 using StyleViet.Service.Interface;
+using StyleViet.Service.Model;
 using StyleViet.Service.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace StyleViet.Service.Implement
 {
@@ -54,15 +56,22 @@ namespace StyleViet.Service.Implement
             }
             return "Fail";
         }
-        private Account RegisterAccount(string username, string password, string email)
+        private Account RegisterAccount(string username, string password, string email, string googleId=null, string facebookId=null)
         {
-            var hashing = HashingHelper.GenerateHash(password);
+            Tuple<string, string> hashing = new Tuple<string, string>(null,null);
+            if (!string.IsNullOrWhiteSpace(password))
+            {
+                hashing = HashingHelper.GenerateHash(password);
+            }
+            
             Account account = new Account
             {
                 Username = HashingHelper.GenerateSHA256Hash(username),
                 Password = hashing.Item1,
                 Salt = hashing.Item2,
                 Email = email,
+                GoogleId = googleId,
+                FacebookId = facebookId,
                 Expired = false,
             };
             return account;
@@ -103,6 +112,51 @@ namespace StyleViet.Service.Implement
                 Email = model.Email
             };
             return _authRepo.RegisterSalonAccount(account, salon);
+        }
+
+        public Task CreateAsync(Profile model)
+        {
+            string result = "";
+            var account = this.RegisterAccount(model.UserName, null, model.Email, model.GoogleId, model.FacebookId);
+            if (model.RoleId == (int)RoleEnum.Salon)
+            {
+                Salon salon = new Salon
+                {
+                    Name = model.Name,
+                    Address = model.Address,
+                    Phone = model.Phone,
+                    Email = model.Email
+                };
+                result = _authRepo.RegisterSalonAccount(account, salon);
+            }
+            else
+            {
+                User member = new User
+                {
+                    FirstName = model.Name,                    
+                    Email = model.Email,
+                    Phone = model.Phone
+                };
+                result = _authRepo.RegisterMemberAccount(account, member);
+            }
+            return Task.CompletedTask; 
+        }
+
+        public Task<Profile> RetrieveAsync(string username)
+        {
+            var hashedUsername = HashingHelper.GenerateSHA256Hash(username);
+            var foundedAcc = _authRepo.GetAccountPassword(hashedUsername);
+            if (foundedAcc != null)
+            {
+                var profile = new Profile
+                {
+                    UserName = username,                       
+                    Email = foundedAcc.Email,
+                    RoleId = foundedAcc.AccountRoles.Select(r => r.RoleId).FirstOrDefault()
+                };
+                return Task.FromResult<Profile>(profile);
+            }
+            return Task.FromResult<Profile>(null);
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿@{
-    Layout = null;
     ViewData["Title"] = "Register";
 }
+
+@using Microsoft.AspNetCore.Authentication
+@inject IAuthenticationSchemeProvider SchemeProvider
 @model StyleViet.Service.ViewModel.MemberViewModel
-<h2>Register Admin Account</h2>
+
+<h2>Register User Account</h2>
 <hr />
 @if (TempData["RegisterStatus"] != null)
 {
@@ -15,39 +18,59 @@
     }
 }
 
-<form asp-action="Register" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Username" class="control-label"></label>
-        <input asp-for="Username" class="form-control" />
-        <span asp-validation-for="Username" class="text-danger"></span>
+<div class="row">
+    <div class="col-md-6">
+        <div class="col-md-6">
+            <form asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Register" class="btn btn-default btn-primary" />
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h3>Sign Up with Salon social providers</h3>
+            <h4>Select from the list of available social providers</h4>
+            <div class="btn-group" role="group">
+                @foreach (var provider in await SchemeProvider.GetRequestHandlerSchemesAsync())
+                {
+                    <a class="btn btn-lg btn-default"
+                       asp-route-returnUrl="@Context.Request.Query["returnUrl"]"
+                       asp-route-provider="@provider.Name"
+                       asp-route-roleId="3"
+                       asp-action="Login"><i class="fa fa-@provider.Name.ToLower()"></i>@provider.Name</a>
+                }
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Password" class="control-label"></label>
-        <input asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="FirstName" class="control-label"></label>
-        <input asp-for="FirstName" class="form-control" />
-        <span asp-validation-for="FirstName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="LastName" class="control-label"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Phone" class="control-label"></label>
-        <input asp-for="Phone" class="form-control" />
-        <span asp-validation-for="Phone" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Register" class="btn btn-default btn-primary" />
-    </div>
-</form>
+</div>
