@@ -52,6 +52,7 @@
                             <ul class="dropdown-menu" aria-labelledby="profileMenu">
                                 <li><a href="#">My Accounts</a></li>
                                 <li><a href="#">Favourite Salon</a></li>
+                                <li><a href="#">Set up your business</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li>
                                     <a asp-controller="Auth" asp-action="Logout">Sign Out</a>
@@ -124,8 +125,7 @@
                     $('#modal-container .modal-content').empty();
                 });
         </script>
-    </environment>    
-
+    </environment>        
     @RenderSection("Scripts", required: false)
 </body>
 </html>

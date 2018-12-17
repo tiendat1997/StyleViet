@@ -8,5 +8,6 @@ namespace StyleViet.Service.ViewModel
     {
         public bool IsSuccess { get; set; }
         public int RoleId { get; set; }
+        public string Username { get; set; }
     }
 }

@@ -69,7 +69,11 @@ namespace StyleViet.WebApp.Controllers
 
                 if (result.IsSuccess)
                 {
-                    var claims = new List<Claim> { new Claim(ClaimTypes.Name, model.Username) };
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, result.Username),
+                        new Claim(ClaimTypes.Name, model.Username)
+                    };
                     string action = "Index";
                     string controller = "Home";
                     if (result.RoleId == (int)RoleEnum.Member)

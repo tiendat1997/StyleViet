@@ -34,7 +34,7 @@ namespace StyleViet.Service.Implement
                 if (result)
                 {
                     int roleId = foundedAcc.AccountRoles.Select(r => r.RoleId).FirstOrDefault();
-                    return new LoginResultViewModel { IsSuccess = true, RoleId = roleId };
+                    return new LoginResultViewModel { IsSuccess = true, RoleId = roleId, Username = hashedUsername };
                 }                    
             }
             return new LoginResultViewModel { IsSuccess = false };
