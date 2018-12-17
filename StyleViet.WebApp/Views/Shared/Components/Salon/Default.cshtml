@@ -1,0 +1,19 @@
+﻿@model IEnumerable<StyleViet.Service.ViewModel.SalonViewModel>
+
+@{
+    ViewData["Title"] = "Default";
+}
+<div class="row">
+    @foreach (var salon in Model)
+    {
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="http://www.salon-ludic.com/resources/themes/ludic/dist/assets/img/og-default.jpg" alt="...">
+                <div class="caption" style="text-align:center">
+                    <h3>@salon.Name</h3>                    
+                    <p><a href="#" class="btn btn-primary" role="button">Visit Salon</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

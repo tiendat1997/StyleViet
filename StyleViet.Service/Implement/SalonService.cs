@@ -56,5 +56,19 @@ namespace StyleViet.Service.Implement
                 }
             }
         }
+
+        public async Task<IEnumerable<SalonViewModel>> GetAllSalon()
+        {
+            var salons = _salonRepository.GetAll().Select(s => new SalonViewModel
+            {
+                Id = s.AccountId,
+                Name = s.Name,
+                Address = s.Address,
+                Phone = s.Phone,
+                SalonId = s.Id,
+                Email = s.Email
+            });
+            return salons;
+        }
     }
 }

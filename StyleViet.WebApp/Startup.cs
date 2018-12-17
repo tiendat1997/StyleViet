@@ -72,7 +72,7 @@ namespace StyleViet.WebApp
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(Configuration.GetConnectionString("StyleVietConn"));
             });
-            services.AddSingleton<IProfileService, ProfileService>(); 
+            services.AddSingleton<IProfileService, ProfileService>();            
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ISalonRepository, SalonRepository>();
             services.AddTransient<IAuthService, AuthService>();

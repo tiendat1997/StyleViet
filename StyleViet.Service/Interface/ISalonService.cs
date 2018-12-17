@@ -9,5 +9,7 @@ namespace StyleViet.Service.Interface
     {
         SalonViewModel GetProfile(string username);
         void UpdateProfile(SalonViewModel model);
+        Task<IEnumerable<SalonViewModel>> GetAllSalon();
+
     }
 }
