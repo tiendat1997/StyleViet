@@ -75,8 +75,12 @@ namespace StyleViet.WebApp
             services.AddSingleton<IProfileService, ProfileService>();            
             services.AddTransient<IAuthRepository, AuthRepository>();
             services.AddTransient<ISalonRepository, SalonRepository>();
+            services.AddTransient<IClientRepository, ClientRepository>();
+
+
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<ISalonService, SalonService>();
+            services.AddTransient<IClientService, ClientService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             #endregion
 

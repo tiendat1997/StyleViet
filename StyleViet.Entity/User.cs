@@ -6,7 +6,7 @@ using System.Text;
 
 namespace StyleViet.Entity
 {
-    public class User
+    public class User : BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
