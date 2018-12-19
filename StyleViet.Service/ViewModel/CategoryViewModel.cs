@@ -8,5 +8,6 @@ namespace StyleViet.Service.ViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public IEnumerable<SalonServiceViewModel> Services { get; set; }
     }
 }
